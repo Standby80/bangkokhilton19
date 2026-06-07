@@ -48,7 +48,11 @@
             <nav class="flex-1 px-4 space-y-2">
                 <button onclick="showTab('orders')" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors bg-gray-800" id="tab-orders">Aktuella Ordrar</button>
                 <button onclick="showTab('reservations')" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors" id="tab-reservations">Bordsbokningar</button>
-                <button onclick="showTab('menu')" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors" id="tab-menu">Hantera Meny</button>
+                <div class="pt-4 pb-2 px-2 text-xs text-gray-500 uppercase tracking-wider">Menyhantering</div>
+                <button onclick="showTab('menus')" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors" id="tab-menus">Huvudmenyer</button>
+                <button onclick="showTab('options')" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors" id="tab-options">Tillvalsgrupper</button>
+                <button onclick="showTab('dishes')" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors" id="tab-dishes">Maträtter</button>
+                <div class="pt-4 pb-2 px-2 text-xs text-gray-500 uppercase tracking-wider">System</div>
                 <button onclick="showTab('settings')" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors" id="tab-settings">Inställningar</button>
             </nav>
             <div class="p-4 border-t border-gray-800 space-y-2">
@@ -106,15 +110,38 @@
                 </div>
             </section>
 
-            <!-- Menu Tab -->
-            <section id="menu-sec" class="hidden">
+            <!-- Menus Tab -->
+            <section id="menus-sec" class="hidden">
                 <div class="flex justify-between items-center mb-6 mt-4">
-                    <h2 class="text-3xl font-bold">Meny</h2>
-                    <button onclick="openMenuModal()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Ny Maträtt</button>
+                    <h2 class="text-3xl font-bold">Huvudmenyer</h2>
+                    <button onclick="openMenuCategoryModal()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Skapa Meny</button>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="adminMenuContainer">
-                    <div class="text-gray-500">Laddar...</div>
+                <div class="bg-white rounded-xl shadow overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50 border-b border-gray-100 text-sm text-gray-500 uppercase">
+                            <tr><th class="p-4">Namn</th><th class="p-4">Beskrivning</th><th class="p-4 w-24">Status</th><th class="p-4 w-32 text-right">Åtgärd</th></tr>
+                        </thead>
+                        <tbody id="adminMenusTbody"></tbody>
+                    </table>
                 </div>
+            </section>
+
+            <!-- Options Tab -->
+            <section id="options-sec" class="hidden">
+                <div class="flex justify-between items-center mb-6 mt-4">
+                    <h2 class="text-3xl font-bold">Tillvalsgrupper</h2>
+                    <button onclick="openOptionGroupModal()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Skapa Grupp</button>
+                </div>
+                <div id="adminOptionsContainer" class="space-y-6"></div>
+            </section>
+
+            <!-- Dishes Tab -->
+            <section id="dishes-sec" class="hidden">
+                <div class="flex justify-between items-center mb-6 mt-4">
+                    <h2 class="text-3xl font-bold">Maträtter</h2>
+                    <button onclick="openDishModal()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Skapa Maträtt</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="adminDishesContainer"></div>
             </section>
 
             <!-- Settings Tab -->
@@ -151,35 +178,109 @@
         </main>
     </div>
 
-    <!-- Menu Item Modal -->
-    <div id="menuModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-8 w-full max-w-md">
-            <h3 class="text-xl font-bold mb-4" id="menuModalTitle">Lägg till maträtt</h3>
-            <form id="menuForm" class="space-y-4">
-                <input type="hidden" id="menuId">
+    <!-- Modal: Menu Category -->
+    <div id="menuCategoryModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6">
+            <h3 class="text-2xl font-bold mb-4" id="menuCategoryModalTitle">Skapa Meny</h3>
+            <form id="menuCategoryForm" class="space-y-4">
+                <input type="hidden" id="menuCategoryId">
                 <div>
-                    <label class="block text-sm mb-1">Namn</label>
-                    <input type="text" id="menuName" required class="w-full px-3 py-2 border rounded">
-                </div>
-                <div>
-                    <label class="block text-sm mb-1">Beskrivning</label>
-                    <textarea id="menuDesc" class="w-full px-3 py-2 border rounded"></textarea>
+                    <label class="block text-sm font-medium mb-1">Namn på meny</label>
+                    <input type="text" id="menuCategoryName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="T.ex. Lunchmeny">
                 </div>
                 <div>
-                    <label class="block text-sm mb-1">Pris (kr)</label>
-                    <input type="number" id="menuPrice" required class="w-full px-3 py-2 border rounded">
+                    <label class="block text-sm font-medium mb-1">Beskrivning</label>
+                    <textarea id="menuCategoryDesc" rows="2" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="T.ex. Serveras vardagar 11-14"></textarea>
                 </div>
                 <div>
-                    <label class="block text-sm mb-1">Kategori</label>
-                    <input type="text" id="menuCategory" required class="w-full px-3 py-2 border rounded">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" id="menuCategoryActive" class="rounded text-green-600 focus:ring-green-500" checked>
+                        <span class="text-sm font-medium">Aktiv</span>
+                    </label>
                 </div>
-                <div class="flex items-center gap-2">
-                    <input type="checkbox" id="menuActive" checked>
-                    <label for="menuActive" class="text-sm">Aktiv (synlig på menyn)</label>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="closeMenuCategoryModal()" class="px-4 py-2 text-gray-500 hover:text-gray-700 font-medium">Avbryt</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">Spara</button>
                 </div>
-                <div class="flex justify-end gap-3 mt-6">
-                    <button type="button" onclick="closeMenuModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Avbryt</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Spara</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Option Group -->
+    <div id="optionGroupModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6">
+            <h3 class="text-2xl font-bold mb-4" id="optionGroupModalTitle">Skapa Tillvalsgrupp</h3>
+            <form id="optionGroupForm" class="space-y-4">
+                <input type="hidden" id="optionGroupId">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Gruppnamn</label>
+                    <input type="text" id="optionGroupName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="T.ex. Välj protein">
+                </div>
+                <div>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" id="optionGroupRequired" class="rounded text-blue-600 focus:ring-blue-500">
+                        <span class="text-sm font-medium">Obligatoriskt (Kunden MÅSTE välja ETT alternativ)</span>
+                    </label>
+                    <p class="text-xs text-gray-500 mt-1">Om ej obligatorisk kan kunden välja noll, ett eller flera alternativ.</p>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                    <h4 class="font-bold mb-2">Alternativ</h4>
+                    <div id="optionGroupOptionsContainer" class="space-y-2 mb-3"></div>
+                    <button type="button" onclick="addOptionRow()" class="text-sm text-blue-600 hover:text-blue-800 font-medium">+ Lägg till alternativ</button>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                    <button type="button" onclick="closeOptionGroupModal()" class="px-4 py-2 text-gray-500 hover:text-gray-700 font-medium">Avbryt</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">Spara</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Dish -->
+    <div id="dishModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
+            <h3 class="text-2xl font-bold mb-4" id="dishModalTitle">Skapa Maträtt</h3>
+            <form id="dishForm" class="space-y-4">
+                <input type="hidden" id="dishId">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Namn</label>
+                        <input type="text" id="dishName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Baspris (kr)</label>
+                        <input type="number" id="dishPrice" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" min="0" step="1">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Tillhör Meny</label>
+                        <select id="dishMenuId" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"></select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Kategori i menyn</label>
+                        <input type="text" id="dishCategory" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="T.ex. Förrätt, Varmrätt">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Beskrivning</label>
+                    <textarea id="dishDesc" rows="3" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Koppla Tillvalsgrupper</label>
+                    <div id="dishOptionGroupsContainer" class="bg-gray-50 p-4 rounded-lg space-y-2 border border-gray-100 max-h-40 overflow-y-auto">
+                        <!-- Checkboxes inserted here via JS -->
+                    </div>
+                </div>
+                <div>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" id="dishActive" class="rounded text-green-600 focus:ring-green-500" checked>
+                        <span class="text-sm font-medium">Aktiv (Visas på menyn)</span>
+                    </label>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                    <button type="button" onclick="closeDishModal()" class="px-4 py-2 text-gray-500 hover:text-gray-700 font-medium">Avbryt</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">Spara maträtt</button>
                 </div>
             </form>
         </div>
