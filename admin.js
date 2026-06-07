@@ -158,7 +158,8 @@ function renderMenus() {
             <td class="p-4 text-sm text-gray-500">${m.beskrivning || ''}</td>
             <td class="p-4">${m.aktiv ? 'Aktiv' : 'Inaktiv'}</td>
             <td class="p-4 text-right">
-                <button onclick="editMenu(${m.id})" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium">Redigera</button>
+                <button onclick="editMenu(${m.id})" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium mr-2">Redigera</button>
+                <button onclick="deleteMenu(${m.id})" class="px-3 py-1 bg-red-100 text-red-700 hover:bg-red-200 rounded text-sm font-medium">Radera</button>
             </td>
         </tr>
     `).join('');
@@ -204,6 +205,13 @@ document.getElementById('menuCategoryForm').addEventListener('submit', async (e)
     } else alert("Fel: " + error.message);
 });
 
+async function deleteMenu(id) {
+    if (!confirm('Är du säker på att du vill radera denna meny? Alla rätter kopplade till menyn kommer också att raderas.')) return;
+    const { error } = await window.supabaseClient.from('menyer').delete().eq('id', id);
+    if (!error) fetchMenus();
+    else alert("Kunde inte radera: " + error.message);
+}
+
 // --- Options (Tillvalsgrupper) ---
 async function fetchOptions() {
     const { data, error } = await window.supabaseClient.from('tillvals_grupper').select('*, tillvals_alternativ(*)').order('id');
@@ -227,7 +235,10 @@ function renderOptions() {
                         ${g.obligatorisk ? '<span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded font-bold">Obligatorisk</span>' : '<span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded font-bold">Valfri</span>'}
                     </h4>
                 </div>
-                <button onclick="editOptionGroup(${g.id})" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium">Redigera</button>
+                <div>
+                    <button onclick="editOptionGroup(${g.id})" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium mr-2">Redigera</button>
+                    <button onclick="deleteOptionGroup(${g.id})" class="px-3 py-1 bg-red-100 text-red-700 hover:bg-red-200 rounded text-sm font-medium">Radera</button>
+                </div>
             </div>
             <div>${opts}</div>
         </div>
@@ -304,6 +315,13 @@ document.getElementById('optionGroupForm').addEventListener('submit', async (e) 
     } catch (err) { console.error(err); }
 });
 
+async function deleteOptionGroup(id) {
+    if (!confirm('Är du säker på att du vill radera denna tillvalsgrupp?')) return;
+    const { error } = await window.supabaseClient.from('tillvals_grupper').delete().eq('id', id);
+    if (!error) fetchOptions();
+    else alert("Kunde inte radera: " + error.message);
+}
+
 // --- Dishes ---
 async function fetchDishes() {
     const { data, error } = await window.supabaseClient.from('ratter').select('*, menyer(namn), ratt_tillval(grupp_id)').order('meny_id');
@@ -332,6 +350,7 @@ function renderDishes() {
             <div class="mb-4">${groups}</div>
             <div class="flex gap-2">
                 <button onclick="editDish(${d.id})" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm font-medium">Redigera</button>
+                <button onclick="deleteDish(${d.id})" class="px-3 py-1 bg-red-100 text-red-700 hover:bg-red-200 rounded text-sm font-medium">Radera</button>
             </div>
         </div>
     `}).join('');
@@ -414,6 +433,13 @@ document.getElementById('dishForm').addEventListener('submit', async (e) => {
         fetchDishes();
     } catch(err) { console.error(err); alert("Fel vid sparning."); }
 });
+
+async function deleteDish(id) {
+    if (!confirm('Är du säker på att du vill radera denna maträtt?')) return;
+    const { error } = await window.supabaseClient.from('ratter').delete().eq('id', id);
+    if (!error) fetchDishes();
+    else alert("Kunde inte radera: " + error.message);
+}
 
 // --- Realtime Subscriptions ---
 function setupRealtime() {
