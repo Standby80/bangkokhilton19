@@ -70,7 +70,7 @@ async function fetchMenu() {
         renderMenu();
     } catch (err) {
         console.error('Failed to fetch menu', err);
-        menuContainer.innerHTML = '<div class="col-span-full text-center text-red-500 py-10">Kunde inte ladda menyn. Försök igen senare.</div>';
+        menuContainer.innerHTML = `<div class="col-span-full text-center text-red-500 py-10">Kunde inte ladda menyn: ${err.message || err.toString()}</div>`;
     }
 }
 
