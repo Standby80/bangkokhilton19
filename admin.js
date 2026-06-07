@@ -82,7 +82,7 @@ async function logout() {
 
 // --- Orders ---
 async function fetchOrders() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('ordrar')
         .select('*')
         .order('created_at', { ascending: false });
@@ -120,7 +120,7 @@ function renderOrders() {
 
 // --- Reservations ---
 async function fetchReservations() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('bokningar')
         .select('*')
         .order('datum', { ascending: true });

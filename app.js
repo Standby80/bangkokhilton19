@@ -59,7 +59,7 @@ async function loadPayPalSDK() {
 // Fetch Menu from Supabase
 async function fetchMenu() {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('meny')
             .select('*')
             .eq('aktiv', true);
