@@ -269,9 +269,13 @@
             <div class="text-center text-gray-500 mt-10 uppercase tracking-widest text-sm">Din varukorg är tom.</div>
         </div>
         <div class="p-6 border-t border-dark-border bg-dark-card">
-            <div class="flex justify-between font-bold text-lg mb-6 text-brand-500">
+            <div class="flex justify-between font-bold text-lg text-brand-500">
                 <span class="uppercase tracking-widest text-sm mt-1">Totalt:</span>
                 <span id="cartTotal">0 kr</span>
+            </div>
+            <div class="flex justify-between text-gray-500 text-xs mb-6">
+                <span class="uppercase tracking-widest">Varav moms (6%):</span>
+                <span id="cartVat">0 kr</span>
             </div>
             
             <div id="checkoutForm" class="hidden space-y-4 mb-6">
@@ -285,8 +289,25 @@
 
             <button id="proceedToCheckoutBtn" class="w-full py-4 bg-brand-600 text-dark-bg uppercase tracking-widest font-bold hover:bg-brand-500 transition-colors hidden">Fortsätt till betalning</button>
             <div id="paypal-button-container" class="hidden mt-4"></div>
+            
             <div id="orderSuccessMessage" class="hidden text-brand-500 text-center font-medium bg-brand-500/10 p-4 border border-brand-500/30">
-                Tack! Din betalning är genomförd och ordern är mottagen.
+                <p>Tack! Din betalning är genomförd och ordern är mottagen.</p>
+                <button onclick="showReceipt()" class="mt-4 px-6 py-2 bg-brand-500 text-dark-bg rounded-lg uppercase tracking-widest text-xs font-bold hover:bg-brand-600 transition-colors w-full">Visa Kvitto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="fixed inset-0 bg-black/80 z-[60] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl w-full max-w-md p-8 relative max-h-[90vh] overflow-y-auto text-gray-900 font-mono text-sm">
+            <button onclick="document.getElementById('receiptModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 no-print">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div id="receiptContent">
+                <!-- Receipt will be generated here -->
+            </div>
+            <div class="mt-8 flex justify-center no-print">
+                <button onclick="window.print()" class="px-6 py-3 bg-brand-500 text-white rounded-lg uppercase tracking-widest text-xs font-bold hover:bg-brand-600 transition-colors">Skriv ut / Spara PDF</button>
             </div>
         </div>
     </div>

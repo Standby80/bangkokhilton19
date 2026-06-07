@@ -346,6 +346,11 @@ function updateCartUI() {
     const totalAmount = cart.reduce((sum, item) => sum + (item.enhetspris * item.quantity), 0);
     cartTotalEl.textContent = totalAmount + ' kr';
     
+    // Beräkna moms (6% inbakat i priset)
+    const vatAmount = Math.round(totalAmount - (totalAmount / 1.06));
+    const cartVatEl = document.getElementById('cartVat');
+    if(cartVatEl) cartVatEl.textContent = vatAmount + ' kr';
+    
     if (cart.length === 0) {
         cartItemsContainer.innerHTML = '<div class="text-center text-gray-500 mt-10 uppercase tracking-widest text-sm">Din varukorg är tom.</div>';
         checkoutForm.classList.add('hidden');
@@ -481,6 +486,7 @@ function setupPayPal(name, email, time, amount) {
                     console.error('Kunde inte spara order i Supabase:', error);
                     alert('Betalningen gick igenom men ordern kunde inte sparas. Vänligen kontakta oss.');
                 } else {
+                    window.latestOrder = orderPayload; // Save for receipt
                     cart = [];
                     updateCartUI();
                     paypalButtonContainer.classList.add('hidden');
@@ -490,6 +496,80 @@ function setupPayPal(name, email, time, amount) {
         }
     }).render('#paypal-button-container');
 }
+
+// Show Receipt
+async function showReceipt() {
+    if (!window.latestOrder) return;
+    
+    // Fetch company settings
+    const { data: settingsData } = await window.supabaseClient.from('installningar').select('*');
+    const settings = {};
+    if (settingsData) {
+        settingsData.forEach(row => settings[row.nyckel] = row.varde);
+    }
+    
+    const receiptModal = document.getElementById('receiptModal');
+    const receiptContent = document.getElementById('receiptContent');
+    
+    const d = new Date();
+    const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+    
+    // Calculate VAT (6% included)
+    const vatAmount = Math.round(window.latestOrder.total_belopp - (window.latestOrder.total_belopp / 1.06));
+    
+    let html = `
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold uppercase tracking-widest">${settings.company_name || 'Företagsnamn saknas'}</h2>
+            <p class="text-xs text-gray-500 mt-1">${settings.company_address || ''}</p>
+            <p class="text-xs text-gray-500">${settings.company_zip || ''} ${settings.company_city || ''}</p>
+            <p class="text-xs text-gray-500">Tel: ${settings.company_phone || ''}</p>
+            <p class="text-xs text-gray-500 mt-2">Org.nr: ${settings.company_orgnr || ''}</p>
+            <p class="text-xs text-gray-500">Momsreg.nr: ${settings.company_vat || ''}</p>
+            <p class="text-xs text-gray-500">Godkänd för F-skatt: ${settings.company_fskatt || ''}</p>
+        </div>
+        <div class="border-t border-b border-dashed border-gray-300 py-4 mb-4">
+            <p class="text-xs flex justify-between"><span>Kvitto / Order</span> <span>${window.latestOrder.paypal_order_id}</span></p>
+            <p class="text-xs flex justify-between"><span>Datum</span> <span>${dateStr}</span></p>
+            <p class="text-xs flex justify-between"><span>Kund</span> <span>${window.latestOrder.kundnamn}</span></p>
+            <p class="text-xs flex justify-between font-bold mt-2"><span>Avhämtning</span> <span>${new Date(window.latestOrder.hamtningstid).toLocaleString()}</span></p>
+        </div>
+        <div class="space-y-3 mb-4">
+    `;
+    
+    window.latestOrder.ratter.forEach(item => {
+        html += `
+            <div class="text-sm">
+                <div class="flex justify-between font-medium">
+                    <span>${item.antal}x ${item.namn}</span>
+                    <span>${item.pris * item.antal} kr</span>
+                </div>
+                ${item.tillval ? `<div class="text-xs text-gray-500 pl-4">${item.tillval}</div>` : ''}
+            </div>
+        `;
+    });
+    
+    html += `
+        </div>
+        <div class="border-t border-dashed border-gray-300 pt-4 mb-4">
+            <div class="flex justify-between font-bold text-lg mb-2">
+                <span>TOTALT</span>
+                <span>${window.latestOrder.total_belopp} kr</span>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500">
+                <span>Varav moms (6%)</span>
+                <span>${vatAmount} kr</span>
+            </div>
+        </div>
+        <div class="text-center text-xs text-gray-500 mt-8">
+            Tack för ditt köp! Välkommen åter.
+        </div>
+    `;
+    
+    receiptContent.innerHTML = html;
+    receiptModal.classList.remove('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
 
 // Boot
 init();

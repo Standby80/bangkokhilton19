@@ -155,32 +155,87 @@
             <!-- Settings Tab -->
             <section id="settings-sec" class="hidden">
                 <h2 class="text-3xl font-bold mb-6 mt-4">Inställningar</h2>
-                <div class="bg-white rounded-xl shadow p-6 max-w-2xl">
-                    <h3 class="text-xl font-bold mb-4">PayPal Integration</h3>
-                    <p class="text-gray-600 text-sm mb-6">Ställ in dina PayPal-uppgifter och välj om betalningar ska göras i testläge (Sandbox) eller i skarpt läge (Live).</p>
-                    <form id="settingsForm" class="space-y-6">
-                        
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Miljö (Mode)</label>
-                            <select id="paypalModeInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm bg-gray-50">
-                                <option value="sandbox">Sandbox (Testläge)</option>
-                                <option value="live">Live (Skarpt läge)</option>
-                            </select>
-                        </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Företagsuppgifter -->
+                    <div class="bg-white rounded-xl shadow p-6">
+                        <h3 class="text-xl font-bold mb-4">Företagsuppgifter för Kvitto</h3>
+                        <p class="text-gray-600 text-sm mb-6">Dessa uppgifter kommer att synas på kundens kvitto efter genomfört köp.</p>
+                        <form id="companySettingsForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Företagsnamn</label>
+                                <input type="text" id="companyNameInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Org.nummer</label>
+                                    <input type="text" id="companyOrgnrInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Momsreg.nr (VAT)</label>
+                                    <input type="text" id="companyVatInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Gatuadress</label>
+                                <input type="text" id="companyAddressInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Postnummer</label>
+                                    <input type="text" id="companyZipInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Ort</label>
+                                    <input type="text" id="companyCityInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Telefon</label>
+                                    <input type="text" id="companyPhoneInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Innehar F-skatt</label>
+                                    <select id="companyFskattInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm bg-gray-50">
+                                        <option value="Ja">Ja</option>
+                                        <option value="Nej">Nej</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        <div>
-                            <label class="block text-sm font-medium mb-1">PayPal Sandbox Client ID</label>
-                            <input type="text" id="paypalSandboxIdInput" placeholder="ex. AXbY..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm">
-                        </div>
+                            <button type="submit" class="w-full py-3 bg-gray-900 text-white rounded-lg hover:bg-black font-bold transition-colors mt-6">Spara företagsuppgifter</button>
+                            <div id="companySettingsMessage" class="hidden mt-2 text-center text-sm text-green-600 font-medium">Uppgifter sparade!</div>
+                        </form>
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium mb-1">PayPal Live Client ID</label>
-                            <input type="text" id="paypalLiveIdInput" placeholder="ex. AZxK..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm">
-                        </div>
+                    <!-- PayPal Inställningar -->
+                    <div class="bg-white rounded-xl shadow p-6">
+                        <h3 class="text-xl font-bold mb-4">PayPal Integration</h3>
+                        <p class="text-gray-600 text-sm mb-6">Ställ in dina PayPal-uppgifter och välj om betalningar ska göras i testläge (Sandbox) eller i skarpt läge (Live).</p>
+                        <form id="settingsForm" class="space-y-6">
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Miljö (Mode)</label>
+                                <select id="paypalModeInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm bg-gray-50">
+                                    <option value="sandbox">Sandbox (Testläge)</option>
+                                    <option value="live">Live (Skarpt läge)</option>
+                                </select>
+                            </div>
 
-                        <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-bold transition-colors">Spara inställningar</button>
-                        <div id="settingsMessage" class="hidden mt-2 text-center text-sm text-green-600 font-medium">Inställningar sparade!</div>
-                    </form>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">PayPal Sandbox Client ID</label>
+                                <input type="text" id="paypalSandboxIdInput" placeholder="ex. AXbY..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-1">PayPal Live Client ID</label>
+                                <input type="text" id="paypalLiveIdInput" placeholder="ex. AZxK..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm">
+                            </div>
+
+                            <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-bold transition-colors mt-auto">Spara PayPal-inställningar</button>
+                            <div id="settingsMessage" class="hidden mt-2 text-center text-sm text-green-600 font-medium">Inställningar sparade!</div>
+                        </form>
+                    </div>
                 </div>
             </section>
         </main>

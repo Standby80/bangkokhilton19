@@ -461,6 +461,16 @@ async function fetchSettings() {
             if (row.nyckel === 'paypal_mode') document.getElementById('paypalModeInput').value = row.varde;
             if (row.nyckel === 'paypal_sandbox_client_id') document.getElementById('paypalSandboxIdInput').value = row.varde;
             if (row.nyckel === 'paypal_live_client_id') document.getElementById('paypalLiveIdInput').value = row.varde;
+            
+            // Company settings
+            if (row.nyckel === 'company_name') document.getElementById('companyNameInput').value = row.varde;
+            if (row.nyckel === 'company_orgnr') document.getElementById('companyOrgnrInput').value = row.varde;
+            if (row.nyckel === 'company_vat') document.getElementById('companyVatInput').value = row.varde;
+            if (row.nyckel === 'company_address') document.getElementById('companyAddressInput').value = row.varde;
+            if (row.nyckel === 'company_zip') document.getElementById('companyZipInput').value = row.varde;
+            if (row.nyckel === 'company_city') document.getElementById('companyCityInput').value = row.varde;
+            if (row.nyckel === 'company_phone') document.getElementById('companyPhoneInput').value = row.varde;
+            if (row.nyckel === 'company_fskatt') document.getElementById('companyFskattInput').value = row.varde;
         });
     }
 }
@@ -478,4 +488,24 @@ document.getElementById('settingsForm').addEventListener('submit', async (e) => 
         msg.classList.remove('hidden');
         setTimeout(() => msg.classList.add('hidden'), 3000);
     } else alert("Kunde inte spara inställningar: " + error.message);
+});
+
+document.getElementById('companySettingsForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('companySettingsMessage');
+    const updates = [
+        { nyckel: 'company_name', varde: document.getElementById('companyNameInput').value.trim() },
+        { nyckel: 'company_orgnr', varde: document.getElementById('companyOrgnrInput').value.trim() },
+        { nyckel: 'company_vat', varde: document.getElementById('companyVatInput').value.trim() },
+        { nyckel: 'company_address', varde: document.getElementById('companyAddressInput').value.trim() },
+        { nyckel: 'company_zip', varde: document.getElementById('companyZipInput').value.trim() },
+        { nyckel: 'company_city', varde: document.getElementById('companyCityInput').value.trim() },
+        { nyckel: 'company_phone', varde: document.getElementById('companyPhoneInput').value.trim() },
+        { nyckel: 'company_fskatt', varde: document.getElementById('companyFskattInput').value }
+    ];
+    const { error } = await window.supabaseClient.from('installningar').upsert(updates);
+    if (!error) {
+        msg.classList.remove('hidden');
+        setTimeout(() => msg.classList.add('hidden'), 3000);
+    } else alert("Kunde inte spara företagsuppgifter: " + error.message);
 });
