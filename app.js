@@ -165,7 +165,7 @@ function setupEventListeners() {
         };
         
         try {
-            const { error } = await supabase.from('bokningar').insert([payload]);
+            const { error } = await supabaseClient.from('bokningar').insert([payload]);
             if (error) throw error;
             
             msgEl.textContent = 'Bordningsförfrågan mottagen! Vi ser fram emot ditt besök.';
@@ -227,7 +227,7 @@ function setupPayPal(name, email, time, amount) {
                     ratter: cart.map(i => ({ id: i.id, namn: i.namn, antal: i.quantity, pris: i.pris }))
                 };
 
-                const { error } = await supabase.from('ordrar').insert([orderPayload]);
+                const { error } = await supabaseClient.from('ordrar').insert([orderPayload]);
                 
                 if (error) {
                     console.error('Kunde inte spara order i Supabase:', error);

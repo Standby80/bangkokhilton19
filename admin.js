@@ -26,7 +26,7 @@ function showTab(tabName) {
 }
 
 // Check session on load
-supabase.auth.getSession().then(({ data: { session } }) => {
+supabaseClient.auth.getSession().then(({ data: { session } }) => {
     if (session) {
         showDashboard(session.user);
     } else {
@@ -35,7 +35,7 @@ supabase.auth.getSession().then(({ data: { session } }) => {
 });
 
 // Auth listener
-supabase.auth.onAuthStateChange((event, session) => {
+supabaseClient.auth.onAuthStateChange((event, session) => {
     if (event === 'SIGNED_IN') {
         showDashboard(session.user);
     } else if (event === 'SIGNED_OUT') {
@@ -51,7 +51,7 @@ loginForm.addEventListener('submit', async (e) => {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
     
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
     
     if (error) {
         loginError.textContent = "Inloggning misslyckades: " + error.message;
@@ -76,7 +76,7 @@ function showDashboard(user) {
 }
 
 async function logout() {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
 }
 
 // --- Orders ---
@@ -150,7 +150,7 @@ function renderReservations() {
 
 // --- Menu ---
 async function fetchAdminMenu() {
-    const { data, error } = await supabase.from('meny').select('*').order('id');
+    const { data, error } = await supabaseClient.from('meny').select('*').order('id');
     if (!error) {
         adminMenuItems = data;
         renderAdminMenu();
@@ -176,7 +176,7 @@ function renderAdminMenu() {
 
 // --- Realtime Subscriptions ---
 function setupRealtime() {
-    supabase.channel('admin-updates')
+    supabaseClient.channel('admin-updates')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'ordrar' }, payload => {
             console.log('Order update received!', payload);
             fetchOrders(); // Enkel lösning: Hämta alla på nytt för att säkerställa sortering, annars push() och render.
@@ -234,11 +234,11 @@ menuForm.addEventListener('submit', async (e) => {
         let error;
         if (id) {
             // Update
-            const res = await supabase.from('meny').update(payload).eq('id', id);
+            const res = await supabaseClient.from('meny').update(payload).eq('id', id);
             error = res.error;
         } else {
             // Create
-            const res = await supabase.from('meny').insert([payload]);
+            const res = await supabaseClient.from('meny').insert([payload]);
             error = res.error;
         }
         
