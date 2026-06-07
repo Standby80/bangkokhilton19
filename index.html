@@ -86,11 +86,23 @@
     <!-- Menu Section -->
     <section id="meny" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">Vår Meny</h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Välj bland våra noga utvalda rätter. Lägg till i varukorgen för smidig avhämtning.</p>
-            </div>
+        <!-- Hero Section -->
+        <div class="rounded-3xl mb-12 text-center text-white shadow-xl relative overflow-hidden h-64 md:h-80 flex items-center justify-center">
+            <!-- Bakgrundsbild -->
+            <div class="absolute inset-0 bg-[url('./hero-bg.jpg')] bg-cover bg-center"></div>
+            <!-- Mörk gradient/overlay så texten syns tydligt -->
+            <div class="absolute inset-0 bg-black/50 backdrop-blur-[2px]"></div>
             
+            <div class="relative z-10 p-8 w-full">
+                <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-tight drop-shadow-md">Genuin Thaimat i hjärtat av staden</h2>
+                <p class="text-gray-100 max-w-2xl mx-auto text-lg md:text-xl drop-shadow">Välj bland våra noga utvalda rätter. Lägg till i varukorgen för smidig avhämtning.</p>
+            </div>
+        </div>
+
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">Vår Meny</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Välj bland våra noga utvalda rätter. Lägg till i varukorgen för smidig avhämtning.</p>
+        </div>
             <!-- Category Nav -->
         <div id="categoryNavContainer" class="sticky top-[73px] z-30 bg-gray-50/95 backdrop-blur-md border-b border-gray-200 -mx-4 px-4 sm:mx-0 sm:px-0 mb-8 hidden">
             <div class="flex overflow-x-auto hide-scrollbar py-3 gap-2" id="categoryNav">
