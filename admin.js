@@ -359,6 +359,7 @@ function renderDishes() {
 function openDishModal() {
     document.getElementById('dishForm').reset();
     document.getElementById('dishId').value = '';
+    document.getElementById('dishImageUrl').value = '';
     
     // Populate Menu dropdown
     const menuSelect = document.getElementById('dishMenuId');
@@ -389,6 +390,7 @@ function editDish(id) {
     document.getElementById('dishMenuId').value = d.meny_id;
     document.getElementById('dishCategory').value = d.kategori;
     document.getElementById('dishDesc').value = d.beskrivning || '';
+    document.getElementById('dishImageUrl').value = d.bild_url || '';
     document.getElementById('dishActive').checked = d.aktiv;
     
     // Check boxes
@@ -409,6 +411,7 @@ document.getElementById('dishForm').addEventListener('submit', async (e) => {
         meny_id: parseInt(document.getElementById('dishMenuId').value),
         kategori: document.getElementById('dishCategory').value,
         beskrivning: document.getElementById('dishDesc').value,
+        bild_url: document.getElementById('dishImageUrl').value.trim() || null,
         aktiv: document.getElementById('dishActive').checked
     };
     

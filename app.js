@@ -136,6 +136,7 @@ function renderMenu() {
                     <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-brand-500/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     
                     <div>
+                        ${item.bild_url ? `<div class="mb-4 aspect-video overflow-hidden border border-dark-border"><img src="${item.bild_url}" alt="${item.namn}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></div>` : ''}
                         <h4 class="text-base sm:text-lg font-serif font-bold text-brand-500 uppercase tracking-widest mb-2">${item.namn}</h4>
                         <p class="text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-3 sm:line-clamp-none">${item.beskrivning || ''}</p>
                         <span class="text-white font-bold block mb-6">${item.baspris} kr</span>
