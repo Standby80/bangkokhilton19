@@ -569,7 +569,5 @@ async function showReceipt() {
     receiptModal.classList.remove('hidden');
 }
 
-document.addEventListener('DOMContentLoaded', initApp);
-
 // Boot
 init();
