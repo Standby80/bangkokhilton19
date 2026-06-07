@@ -126,16 +126,16 @@ function renderMenu() {
             `;
             
             html += catDishes.map(item => `
-                <div class="menu-card bg-white p-6 rounded-2xl border border-gray-100 flex flex-col justify-between">
+                <div class="menu-card bg-white p-3 sm:p-6 rounded-2xl border border-gray-100 flex flex-col justify-between shadow-sm">
                     <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="text-xl font-bold text-gray-900 leading-tight">${item.namn}</h4>
-                            <span class="text-brand-600 font-bold whitespace-nowrap ml-4">${item.baspris} kr</span>
+                        <div class="flex flex-col sm:flex-row justify-between sm:items-start mb-1 sm:mb-2 gap-1 sm:gap-0">
+                            <h4 class="text-base sm:text-xl font-bold text-gray-900 leading-tight">${item.namn}</h4>
+                            <span class="text-brand-600 font-bold whitespace-nowrap text-sm sm:text-base">${item.baspris} kr</span>
                         </div>
-                        <p class="text-gray-600 text-sm mb-6">${item.beskrivning || ''}</p>
+                        <p class="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-6 line-clamp-3 sm:line-clamp-none">${item.beskrivning || ''}</p>
                     </div>
-                    <button onclick="handleAddToCartClick(${item.id})" class="w-full py-3 bg-gray-50 text-gray-900 rounded-xl font-medium border border-gray-200 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-colors flex justify-center items-center gap-2">
-                        <span>Lägg i varukorg</span>
+                    <button onclick="handleAddToCartClick(${item.id})" class="w-full py-2 sm:py-3 bg-gray-50 text-gray-900 rounded-xl font-medium border border-gray-200 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-colors flex justify-center items-center gap-2 text-sm sm:text-base">
+                        <span>Lägg till</span>
                     </button>
                 </div>
             `).join('');
