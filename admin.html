@@ -122,14 +122,29 @@
                 <h2 class="text-3xl font-bold mb-6 mt-4">Inställningar</h2>
                 <div class="bg-white rounded-xl shadow p-6 max-w-2xl">
                     <h3 class="text-xl font-bold mb-4">PayPal Integration</h3>
-                    <p class="text-gray-600 text-sm mb-4">För att ta emot betalningar måste du ange ditt PayPal Client ID. Om fältet lämnas tomt eller sätts till "test" används en simulerad betalning.</p>
-                    <form id="settingsForm" class="space-y-4">
+                    <p class="text-gray-600 text-sm mb-6">Ställ in dina PayPal-uppgifter och välj om betalningar ska göras i testläge (Sandbox) eller i skarpt läge (Live).</p>
+                    <form id="settingsForm" class="space-y-6">
+                        
                         <div>
-                            <label class="block text-sm font-medium mb-1">PayPal Client ID</label>
-                            <input type="text" id="paypalClientIdInput" placeholder="Klistra in ditt Client ID här..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm">
+                            <label class="block text-sm font-medium mb-2">Miljö (Mode)</label>
+                            <select id="paypalModeInput" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm bg-gray-50">
+                                <option value="sandbox">Sandbox (Testläge)</option>
+                                <option value="live">Live (Skarpt läge)</option>
+                            </select>
                         </div>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-medium">Spara inställningar</button>
-                        <div id="settingsMessage" class="hidden mt-2 text-sm text-green-600 font-medium">Inställningar sparade!</div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1">PayPal Sandbox Client ID</label>
+                            <input type="text" id="paypalSandboxIdInput" placeholder="ex. AXbY..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1">PayPal Live Client ID</label>
+                            <input type="text" id="paypalLiveIdInput" placeholder="ex. AZxK..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm">
+                        </div>
+
+                        <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-bold transition-colors">Spara inställningar</button>
+                        <div id="settingsMessage" class="hidden mt-2 text-center text-sm text-green-600 font-medium">Inställningar sparade!</div>
                     </form>
                 </div>
             </section>

@@ -259,24 +259,34 @@ menuForm.addEventListener('submit', async (e) => {
 async function fetchSettings() {
     const { data, error } = await supabaseClient
         .from('installningar')
-        .select('varde')
-        .eq('nyckel', 'paypal_client_id')
-        .single();
+        .select('*');
         
     if (!error && data) {
-        document.getElementById('paypalClientIdInput').value = data.varde || '';
+        data.forEach(row => {
+            if (row.nyckel === 'paypal_mode') document.getElementById('paypalModeInput').value = row.varde;
+            if (row.nyckel === 'paypal_sandbox_client_id') document.getElementById('paypalSandboxIdInput').value = row.varde;
+            if (row.nyckel === 'paypal_live_client_id') document.getElementById('paypalLiveIdInput').value = row.varde;
+        });
     }
 }
 
 document.getElementById('settingsForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const msg = document.getElementById('settingsMessage');
-    const val = document.getElementById('paypalClientIdInput').value.trim();
     
-    // Upsert equivalent: Since 'nyckel' is PK, we can use upsert
+    const mode = document.getElementById('paypalModeInput').value;
+    const sandboxId = document.getElementById('paypalSandboxIdInput').value.trim();
+    const liveId = document.getElementById('paypalLiveIdInput').value.trim();
+    
+    const updates = [
+        { nyckel: 'paypal_mode', varde: mode },
+        { nyckel: 'paypal_sandbox_client_id', varde: sandboxId },
+        { nyckel: 'paypal_live_client_id', varde: liveId }
+    ];
+    
     const { error } = await supabaseClient
         .from('installningar')
-        .upsert([{ nyckel: 'paypal_client_id', varde: val }]);
+        .upsert(updates);
         
     if (!error) {
         msg.classList.remove('hidden');

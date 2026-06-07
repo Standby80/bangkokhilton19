@@ -28,14 +28,21 @@ async function loadPayPalSDK() {
     try {
         const { data, error } = await supabaseClient
             .from('installningar')
-            .select('varde')
-            .eq('nyckel', 'paypal_client_id')
-            .single();
+            .select('*');
             
-        let clientId = 'test';
-        if (!error && data && data.varde) {
-            clientId = data.varde;
+        let mode = 'sandbox';
+        let sandboxId = 'test';
+        let liveId = 'test';
+
+        if (!error && data) {
+            data.forEach(row => {
+                if (row.nyckel === 'paypal_mode') mode = row.varde;
+                if (row.nyckel === 'paypal_sandbox_client_id') sandboxId = row.varde || 'test';
+                if (row.nyckel === 'paypal_live_client_id') liveId = row.varde || 'test';
+            });
         }
+        
+        const clientId = mode === 'live' ? liveId : sandboxId;
 
         const script = document.createElement('script');
         script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=SEK`;
