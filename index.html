@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangkok Hilton 19 | Autentisk Thaimat</title>
+    <meta name="description" content="Njut av autentisk thaimat för avhämtning och bordsbokning på Bangkok Hilton 19.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            900: '#881337',
+                            950: '#4c0519',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased overflow-x-hidden selection:bg-brand-500 selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <h1 class="text-2xl font-serif font-bold text-brand-600 tracking-tight">Bangkok Hilton 19</h1>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#hem" class="text-gray-700 hover:text-brand-600 font-medium transition-colors">Hem</a>
+                    <a href="#meny" class="text-gray-700 hover:text-brand-600 font-medium transition-colors">Meny & Takeaway</a>
+                    <a href="#boka" class="text-gray-700 hover:text-brand-600 font-medium transition-colors">Boka Bord</a>
+                </div>
+                <!-- Cart Trigger -->
+                <button id="cartBtn" class="relative p-2 text-gray-700 hover:text-brand-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span id="cartCount" class="absolute top-0 right-0 bg-brand-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform translate-x-1/4 -translate-y-1/4">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hem" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-brand-950">
+        <div class="absolute inset-0 z-0 opacity-40 mix-blend-overlay">
+            <img src="https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=2000&q=80" alt="Thai food background" class="w-full h-full object-cover" />
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/80 to-transparent z-0"></div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 animate-fade-in-up">Autentisk thaimat<br>med kärlek.</h2>
+            <p class="mt-4 text-xl md:text-2xl text-brand-100 max-w-3xl mx-auto font-light animate-fade-in-up animation-delay-100">Upplev smakerna av Thailand, mitt i stan. Ät här eller ta med hem.</p>
+            
+            <div class="mt-10 flex justify-center gap-4 animate-fade-in-up animation-delay-200">
+                <a href="#meny" class="px-8 py-4 bg-brand-600 text-white rounded-full font-medium hover:bg-brand-500 transition-all shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 hover:-translate-y-1">Beställ Takeaway</a>
+                <a href="#boka" class="px-8 py-4 bg-white/10 backdrop-blur-md text-white rounded-full font-medium hover:bg-white/20 transition-all border border-white/20">Boka Bord</a>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto animate-fade-in-up animation-delay-300">
+                <div class="glass-card p-6 rounded-2xl border border-white/10 text-white">
+                    <h3 class="font-bold text-xl mb-2 text-brand-400">Öppettider</h3>
+                    <p class="text-gray-300">Måndag - Fredag: 11:00 - 21:00<br>Lördag - Söndag: 12:00 - 22:00</p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl border border-white/10 text-white">
+                    <h3 class="font-bold text-xl mb-2 text-brand-400">Hitta hit</h3>
+                    <p class="text-gray-300">Storgatan 19, 123 45 Staden<br>Tel: 012-345 67 89</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="meny" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">Vår Meny</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Välj bland våra noga utvalda rätter. Lägg till i varukorgen för smidig avhämtning.</p>
+            </div>
+            
+            <div id="menuContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Menu items will be loaded here via JS -->
+                <div class="col-span-full text-center py-10 text-gray-500">Laddar meny...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section id="boka" class="py-20 bg-white relative">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="glass-card-light p-8 md:p-12 rounded-3xl shadow-2xl border border-gray-100">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">Boka Bord</h2>
+                    <p class="text-gray-600">Säkra din plats för en fantastisk smakupplevelse.</p>
+                </div>
+                
+                <form id="reservationForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Namn</label>
+                            <input type="text" id="resName" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Telefon</label>
+                            <input type="tel" id="resPhone" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">E-post</label>
+                            <input type="email" id="resEmail" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Antal personer</label>
+                            <input type="number" id="resSize" min="1" max="20" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Datum och tid</label>
+                            <input type="datetime-local" id="resDate" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-gray-900 text-white rounded-xl font-bold hover:bg-brand-600 transition-colors shadow-lg">Skicka Bokningsförfrågan</button>
+                    <div id="resMessage" class="hidden text-center mt-4 p-4 rounded-xl"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl font-serif text-white mb-4">Bangkok Hilton 19</h2>
+            <p>&copy; 2026 Bangkok Hilton 19. Alla rättigheter förbehållna.</p>
+            <div class="mt-4">
+                <a href="/admin.html" class="text-sm hover:text-white transition-colors">Admin Login</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Overlay / Drawer -->
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+            <h2 class="text-xl font-bold text-gray-900">Din Beställning</h2>
+            <button id="closeCartBtn" class="text-gray-500 hover:text-gray-900 p-2 rounded-full hover:bg-gray-200 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6" id="cartItemsContainer">
+            <!-- Cart items will be injected here -->
+            <div class="text-center text-gray-500 mt-10">Din varukorg är tom.</div>
+        </div>
+        <div class="p-6 border-t border-gray-100 bg-gray-50">
+            <div class="flex justify-between font-bold text-lg mb-6 text-gray-900">
+                <span>Totalt:</span>
+                <span id="cartTotal">0 kr</span>
+            </div>
+            
+            <div id="checkoutForm" class="hidden space-y-4 mb-6">
+                <input type="text" id="checkoutName" placeholder="Ditt namn" class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-brand-500">
+                <input type="email" id="checkoutEmail" placeholder="Din e-post" class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-brand-500">
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Hämtningstid</label>
+                    <input type="datetime-local" id="checkoutTime" class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+            </div>
+
+            <button id="proceedToCheckoutBtn" class="w-full py-4 bg-brand-600 text-white rounded-xl font-bold hover:bg-brand-700 transition-colors shadow-lg hidden">Fortsätt till betalning</button>
+            <div id="paypal-button-container" class="hidden mt-4"></div>
+            <div id="orderSuccessMessage" class="hidden text-green-600 text-center font-medium bg-green-50 p-4 rounded-xl border border-green-200">
+                Tack! Din betalning är genomförd och ordern är mottagen.
+            </div>
+        </div>
+    </div>
+    <!-- Cart Overlay Backdrop -->
+    <div id="cartBackdrop" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    
+    <!-- PayPal SDK (using 'test' client-id for demonstration) -->
+    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=SEK"></script>
+    <script src="app.js"></script>
+</body>
+</html>
