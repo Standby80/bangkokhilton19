@@ -78,18 +78,25 @@ async function fetchMenusData() {
         renderMenu();
     } catch (err) {
         console.error('Failed to fetch menu data', err);
-        menuContainer.innerHTML = `<div class="col-span-full text-center text-red-500 py-10">Kunde inte ladda menyn: ${err.message || err.toString()}</div>`;
+        const menuContainer = document.getElementById('menuContainer');
+        if(menuContainer) menuContainer.innerHTML = `<div class="col-span-full text-center text-red-500 py-10">Kunde inte ladda menyn: ${err.message || err.toString()}</div>`;
     }
 }
 
 // Render Menu
 function renderMenu() {
+    const menuContainer = document.getElementById('menuContainer');
+    const categoryNavContainer = document.getElementById('categoryNavContainer');
+    const categoryNav = document.getElementById('categoryNav');
+    
     if (activeMenus.length === 0 || allDishes.length === 0) {
-        menuContainer.innerHTML = '<div class="col-span-full text-center py-10 text-gray-500">Inga maträtter tillgängliga för tillfället.</div>';
+        if(menuContainer) menuContainer.innerHTML = '<div class="col-span-full text-center py-10 text-gray-500">Inga maträtter tillgängliga för tillfället.</div>';
         return;
     }
 
     let html = '';
+    let navHtml = '';
+    let hasCategories = false;
     
     activeMenus.forEach(menu => {
         const menuDishes = allDishes.filter(d => d.meny_id === menu.id);
@@ -107,9 +114,13 @@ function renderMenu() {
         
         categories.forEach(cat => {
             const catDishes = menuDishes.filter(d => d.kategori === cat);
+            const catId = `cat-${cat.replace(/[^a-zA-Z0-9]/g, '-')}`;
+            hasCategories = true;
+            
+            navHtml += `<a href="#${catId}" class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-colors whitespace-nowrap">${cat}</a>`;
             
             html += `
-                <div class="col-span-full mb-4 mt-2 border-b border-gray-100 pb-2">
+                <div id="${catId}" class="col-span-full mb-4 mt-2 border-b border-gray-100 pb-2 pt-20 -mt-20">
                     <h3 class="text-xl font-bold text-gray-800">${cat}</h3>
                 </div>
             `;
@@ -131,7 +142,27 @@ function renderMenu() {
         });
     });
 
-    menuContainer.innerHTML = html;
+    if(menuContainer) menuContainer.innerHTML = html;
+    
+    if (hasCategories && categoryNavContainer && categoryNav) {
+        categoryNav.innerHTML = navHtml;
+        categoryNavContainer.classList.remove('hidden');
+        
+        // Smooth scrolling for anchor links
+        const navLinks = categoryNav.querySelectorAll('a[href^="#"]');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const yOffset = -80; // Offset for the sticky headers
+                    const y = targetElement.getBoundingClientRect().top + window.scrollY + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            });
+        });
+    }
 }
 
 // --- Options Modal Logic ---

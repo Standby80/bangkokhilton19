@@ -91,7 +91,14 @@
                 <p class="text-gray-600 max-w-2xl mx-auto">Välj bland våra noga utvalda rätter. Lägg till i varukorgen för smidig avhämtning.</p>
             </div>
             
-            <div id="menuContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Category Nav -->
+        <div id="categoryNavContainer" class="sticky top-[73px] z-30 bg-gray-50/95 backdrop-blur-md border-b border-gray-200 -mx-4 px-4 sm:mx-0 sm:px-0 mb-8 hidden">
+            <div class="flex overflow-x-auto hide-scrollbar py-3 gap-2" id="categoryNav">
+                <!-- Genereras via JS -->
+            </div>
+        </div>
+
+        <div id="menuContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Menu items will be loaded here via JS -->
                 <div class="col-span-full text-center py-10 text-gray-500">Laddar meny...</div>
             </div>
