@@ -103,9 +103,12 @@ function renderMenu() {
         if(menuDishes.length === 0) return; // Skip empty menus
         
         html += `
-            <div class="col-span-full mb-8 mt-4">
-                <h2 class="text-3xl font-black text-gray-900 tracking-tight">${menu.namn}</h2>
-                ${menu.beskrivning ? `<p class="text-gray-500 mt-2 text-lg">${menu.beskrivning}</p>` : ''}
+            <div class="col-span-full mb-10 mt-8 text-center">
+                <h2 class="text-3xl font-serif font-bold text-brand-500 uppercase tracking-widest">${menu.namn}</h2>
+                ${menu.beskrivning ? `<p class="text-gray-400 mt-3 text-sm">${menu.beskrivning}</p>` : ''}
+                <div class="flex justify-center mt-4">
+                    <div class="w-16 h-px bg-brand-500/50"></div>
+                </div>
             </div>
         `;
         
@@ -117,25 +120,28 @@ function renderMenu() {
             const catId = `cat-${cat.replace(/[^a-zA-Z0-9]/g, '-')}`;
             hasCategories = true;
             
-            navHtml += `<a href="#${catId}" class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-colors whitespace-nowrap">${cat}</a>`;
+            navHtml += `<a href="#${catId}" class="px-6 py-2 bg-transparent border border-dark-border text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-brand-500 hover:border-brand-500 transition-colors whitespace-nowrap">${cat}</a>`;
             
             html += `
-                <div id="${catId}" class="col-span-full mb-4 mt-2 border-b border-gray-100 pb-2 pt-20 -mt-20">
-                    <h3 class="text-xl font-bold text-gray-800">${cat}</h3>
+                <div id="${catId}" class="col-span-full mb-6 mt-4 border-b border-dark-border pb-4 pt-24 -mt-24">
+                    <h3 class="text-xl font-serif font-bold text-gray-200 uppercase tracking-widest">${cat}</h3>
                 </div>
             `;
             
             html += catDishes.map(item => `
-                <div class="menu-card bg-white p-3 sm:p-6 rounded-2xl border border-gray-100 flex flex-col justify-between shadow-sm">
+                <div class="menu-card bg-dark-card p-4 sm:p-6 border border-dark-border flex flex-col justify-between group hover:border-brand-500/50 transition-colors relative">
+                    <!-- Top-left corner decoration -->
+                    <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-brand-500/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <!-- Bottom-right corner decoration -->
+                    <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-brand-500/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    
                     <div>
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-start mb-1 sm:mb-2 gap-1 sm:gap-0">
-                            <h4 class="text-base sm:text-xl font-bold text-gray-900 leading-tight">${item.namn}</h4>
-                            <span class="text-brand-600 font-bold whitespace-nowrap text-sm sm:text-base">${item.baspris} kr</span>
-                        </div>
-                        <p class="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-6 line-clamp-3 sm:line-clamp-none">${item.beskrivning || ''}</p>
+                        <h4 class="text-base sm:text-lg font-serif font-bold text-brand-500 uppercase tracking-widest mb-2">${item.namn}</h4>
+                        <p class="text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed line-clamp-3 sm:line-clamp-none">${item.beskrivning || ''}</p>
+                        <span class="text-white font-bold block mb-6">${item.baspris} kr</span>
                     </div>
-                    <button onclick="handleAddToCartClick(${item.id})" class="w-full py-2 sm:py-3 bg-gray-50 text-gray-900 rounded-xl font-medium border border-gray-200 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 transition-colors flex justify-center items-center gap-2 text-sm sm:text-base">
-                        <span>Lägg till</span>
+                    <button onclick="handleAddToCartClick(${item.id})" class="w-full py-2 sm:py-3 bg-transparent text-gray-400 border border-dark-border hover:bg-brand-500 hover:text-dark-bg hover:border-brand-500 transition-colors text-xs font-bold uppercase tracking-widest">
+                        Lägg i varukorg
                     </button>
                 </div>
             `).join('');
@@ -191,9 +197,9 @@ function openOptionsModal(dish) {
         
         html += `
             <div class="option-group" data-group-id="${group.id}" data-required="${group.obligatorisk}">
-                <h4 class="font-bold text-gray-900 mb-3 flex items-center justify-between">
+                <h4 class="font-bold text-gray-300 mb-3 flex items-center justify-between uppercase tracking-widest text-xs">
                     <span>${group.namn}</span>
-                    ${group.obligatorisk ? '<span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600 font-medium">Krävs</span>' : ''}
+                    ${group.obligatorisk ? '<span class="text-[10px] border border-brand-500/50 text-brand-500 px-2 py-1 uppercase">Krävs</span>' : ''}
                 </h4>
                 <div class="space-y-2">
         `;
@@ -204,12 +210,12 @@ function openOptionsModal(dish) {
             const priceLabel = opt.extra_pris > 0 ? `+${opt.extra_pris} kr` : '';
             
             html += `
-                <label class="flex items-center justify-between p-3 border border-gray-100 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50">
+                <label class="flex items-center justify-between p-4 border border-dark-border bg-dark-card cursor-pointer hover:border-brand-500/50 transition-colors has-[:checked]:border-brand-500 has-[:checked]:bg-brand-500/10">
                     <div class="flex items-center gap-3">
-                        <input type="${inputType}" ${nameAttr} value="${opt.id}" data-price="${opt.extra_pris}" data-name="${opt.namn}" class="w-5 h-5 text-brand-600 focus:ring-brand-500 option-input">
-                        <span class="font-medium text-gray-900">${opt.namn}</span>
+                        <input type="${inputType}" ${nameAttr} value="${opt.id}" data-price="${opt.extra_pris}" data-name="${opt.namn}" class="w-4 h-4 text-brand-500 bg-dark-bg border-dark-border focus:ring-brand-500 option-input focus:ring-offset-dark-bg">
+                        <span class="font-bold text-gray-300 text-sm uppercase tracking-wider">${opt.namn}</span>
                     </div>
-                    <span class="text-sm text-gray-500">${priceLabel}</span>
+                    <span class="text-sm font-bold text-brand-500">${priceLabel}</span>
                 </label>
             `;
         });
@@ -341,22 +347,22 @@ function updateCartUI() {
     cartTotalEl.textContent = totalAmount + ' kr';
     
     if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<div class="text-center text-gray-500 mt-10">Din varukorg är tom.</div>';
+        cartItemsContainer.innerHTML = '<div class="text-center text-gray-500 mt-10 uppercase tracking-widest text-sm">Din varukorg är tom.</div>';
         checkoutForm.classList.add('hidden');
         proceedToCheckoutBtn.classList.add('hidden');
         paypalButtonContainer.classList.add('hidden');
     } else {
         cartItemsContainer.innerHTML = cart.map(item => `
-            <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-50">
+            <div class="flex justify-between items-center mb-4 pb-4 border-b border-dark-border">
                 <div class="flex-1 pr-4">
-                    <h4 class="font-medium text-gray-900 leading-tight">${item.namn}</h4>
-                    ${item.tillval ? `<div class="text-xs text-gray-500 mt-1">${item.tillval}</div>` : ''}
-                    <div class="text-brand-600 font-medium text-sm mt-1">${item.enhetspris} kr / st</div>
+                    <h4 class="font-bold text-gray-200 uppercase tracking-wider text-sm leading-tight">${item.namn}</h4>
+                    ${item.tillval ? `<div class="text-xs text-gray-500 mt-1 uppercase tracking-wider">${item.tillval}</div>` : ''}
+                    <div class="text-brand-500 font-bold text-sm mt-1">${item.enhetspris} kr / st</div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button onclick="updateQuantity('${item.cartItemId}', -1)" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 font-bold">-</button>
-                    <span class="w-4 text-center font-medium">${item.quantity}</span>
-                    <button onclick="updateQuantity('${item.cartItemId}', 1)" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 font-bold">+</button>
+                    <button onclick="updateQuantity('${item.cartItemId}', -1)" class="w-8 h-8 border border-dark-border text-gray-400 flex items-center justify-center hover:text-brand-500 hover:border-brand-500 transition-colors font-bold">-</button>
+                    <span class="w-4 text-center font-bold text-white">${item.quantity}</span>
+                    <button onclick="updateQuantity('${item.cartItemId}', 1)" class="w-8 h-8 border border-dark-border text-gray-400 flex items-center justify-center hover:text-brand-500 hover:border-brand-500 transition-colors font-bold">+</button>
                 </div>
             </div>
         `).join('');
