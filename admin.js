@@ -54,6 +54,7 @@ loginForm.addEventListener('submit', async (e) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     
     if (error) {
+        loginError.textContent = "Inloggning misslyckades: " + error.message;
         loginError.classList.remove('hidden');
     }
 });
