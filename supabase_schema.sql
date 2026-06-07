@@ -71,3 +71,16 @@ begin;
   create publication supabase_realtime;
 commit;
 alter publication supabase_realtime add table ordrar, bokningar;
+
+-- 4. Tabell för Inställningar (t.ex. PayPal Client ID)
+CREATE TABLE installningar (
+  nyckel TEXT PRIMARY KEY,
+  varde TEXT NOT NULL
+);
+
+ALTER TABLE installningar ENABLE ROW LEVEL SECURITY;
+
+-- Alla kan läsa inställningar (så frontenden kan hämta PayPal ID)
+CREATE POLICY "Alla kan läsa inställningar" ON installningar FOR SELECT USING (true);
+-- Endast admins kan uppdatera/lägga till
+CREATE POLICY "Admins hanterar inställningar" ON installningar FOR ALL USING (auth.role() = 'authenticated');

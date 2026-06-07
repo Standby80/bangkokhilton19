@@ -11,7 +11,7 @@ const loginError = document.getElementById('loginError');
 const userEmailDisplay = document.getElementById('userEmailDisplay');
 
 // Tabs logic
-const tabs = ['orders', 'reservations', 'menu'];
+const tabs = ['orders', 'reservations', 'menu', 'settings'];
 function showTab(tabName) {
     tabs.forEach(t => {
         document.getElementById(`${t}-sec`).classList.add('hidden');
@@ -23,6 +23,7 @@ function showTab(tabName) {
     if (tabName === 'orders') fetchOrders();
     if (tabName === 'reservations') fetchReservations();
     if (tabName === 'menu') fetchAdminMenu();
+    if (tabName === 'settings') fetchSettings();
 }
 
 // Check session on load
@@ -253,3 +254,35 @@ menuForm.addEventListener('submit', async (e) => {
         alert("Något gick fel.");
     }
 });
+
+// --- Settings ---
+async function fetchSettings() {
+    const { data, error } = await supabaseClient
+        .from('installningar')
+        .select('varde')
+        .eq('nyckel', 'paypal_client_id')
+        .single();
+        
+    if (!error && data) {
+        document.getElementById('paypalClientIdInput').value = data.varde || '';
+    }
+}
+
+document.getElementById('settingsForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('settingsMessage');
+    const val = document.getElementById('paypalClientIdInput').value.trim();
+    
+    // Upsert equivalent: Since 'nyckel' is PK, we can use upsert
+    const { error } = await supabaseClient
+        .from('installningar')
+        .upsert([{ nyckel: 'paypal_client_id', varde: val }]);
+        
+    if (!error) {
+        msg.classList.remove('hidden');
+        setTimeout(() => msg.classList.add('hidden'), 3000);
+    } else {
+        alert("Kunde inte spara inställningar: " + error.message);
+    }
+});
+

@@ -19,7 +19,34 @@ const orderSuccessMessage = document.getElementById('orderSuccessMessage');
 // Init
 async function init() {
     await fetchMenu();
+    await loadPayPalSDK();
     setupEventListeners();
+}
+
+// Load PayPal SDK Dynamically
+async function loadPayPalSDK() {
+    try {
+        const { data, error } = await supabaseClient
+            .from('installningar')
+            .select('varde')
+            .eq('nyckel', 'paypal_client_id')
+            .single();
+            
+        let clientId = 'test';
+        if (!error && data && data.varde) {
+            clientId = data.varde;
+        }
+
+        const script = document.createElement('script');
+        script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=SEK`;
+        document.head.appendChild(script);
+        
+        return new Promise((resolve) => {
+            script.onload = resolve;
+        });
+    } catch (err) {
+        console.error('Kunde inte ladda PayPal inställningar', err);
+    }
 }
 
 // Fetch Menu from Supabase
